@@ -3,6 +3,8 @@ package com.puntodeventa.infrastructure.adapter.output.db;
 import com.puntodeventa.application.ports.output.ProductRepositoryPort;
 import com.puntodeventa.domain.model.Product;
 import org.springframework.stereotype.Component;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component 
 public class ProductPersistenceAdapter implements ProductRepositoryPort {
@@ -27,5 +29,14 @@ public class ProductPersistenceAdapter implements ProductRepositoryPort {
         // 3. Devolver el modelo actualizado
         product.setId(savedEntity.getId());
         return product;
+    }
+
+    @Override
+    public List<Product> findAll() {
+        // Obtener todas las entidades de la BD y convertir a dominio
+        return jpaProductRepository.findAll()
+                .stream()
+                .map(entity -> new Product(entity.getId(), entity.getName(), entity.getPrice(), entity.getStock()))
+                .collect(Collectors.toList());
     }
 }

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Punto de Venta</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            margin: 10px;
+            background-color: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #764ba2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛒 Punto de Venta</h1>
+        <p>Bienvenido a la aplicación de Punto de Venta</p>
+        <p>
+            <a href="#" class="btn" onclick="testAPI()">Probar API</a>
+        </p>
+        <p id="response"></p>
+    </div>
+
+    <script>
+        function testAPI() {
+            const data = {
+                name: "Producto Test",
+                price: 99.99,
+                stock: 10
+            };
+
+            fetch('/api/products', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('response').innerHTML = '<p style="color: green;">✓ API funcionando: ' + JSON.stringify(data) + '</p>';
+            })
+            .catch(error => {
+                document.getElementById('response').innerHTML = '<p style="color: red;">✗ Error: ' + error + '</p>';
+            });
+        }
+    </script>
+</body>
+</html>
